@@ -5,6 +5,7 @@
 Unlike traditional coding platforms that emphasize solo problem solving, Bravo is designed to **simulate real competitive programming scenarios** in a controlled, game-like environment. The primary goal is to encourage consistent practice, sharpen logical thinking, and provide measurable improvement through competition.
 
 ---
+![home page](https://github.com/user-attachments/assets/cc679fb0-f531-4bfd-8872-f4989a3c1124)
 
 ## 🚀 Key Features
 
@@ -27,6 +28,10 @@ Unlike traditional coding platforms that emphasize solo problem solving, Bravo i
   Competitive structure influenced by multiplayer gaming mechanics to keep users engaged.
 
 ---
+<img width="1878" height="915" alt="image" src="https://github.com/user-attachments/assets/36791126-3ba7-4c64-9f49-4a5ed0415fa6" />
+<img width="1897" height="910" alt="image" src="https://github.com/user-attachments/assets/584f6302-85e7-4da7-aebc-3c176d510f73" />
+
+
 
 ## 🧠 LLM Integration (AI Mentor)
 
@@ -41,6 +46,8 @@ Bravo integrates a **Large Language Model (LLM)** to improve the learning experi
 The LLM acts as an **AI mentor**, demonstrating reasoning patterns rather than outputting ready-made answers.
 
 ---
+<img width="1882" height="908" alt="image" src="https://github.com/user-attachments/assets/f89c2a1a-8f95-483d-ab5a-e65601f22e3b" />
+
 
 ## 🎯 Project Goals
 
