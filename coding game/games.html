@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Games - Bravo Gaming Platform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html {
+    height: 100%;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite; /* slower gradient animation */
+    color: #d0e6ff;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+    overflow-x: hidden;
+  }
+  @keyframes gradientShift {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+  }
+  .header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    backdrop-filter: saturate(180%) blur(12px);
+    background: rgba(15, 20, 30, 0.85);
+    color: #6bbdff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    box-shadow: 0 0 12px #3a8effbb;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    letter-spacing: 4px;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    font-size: 1.18rem;
+  }
+  nav ul li a {
+    color: #84b6ffdd;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.32s ease;
+  }
+  nav ul li a:hover,
+  nav ul li a.active {
+    color: #6bbdff;
+  }
+  nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: #6bbdff;
+    border-radius: 2px;
+    transition: 0.32s;
+  }
+  nav ul li a:hover::after,
+  nav ul li a.active::after {
+    width: 100%;
+  }
+  main {
+    max-width: 1100px;
+    margin: 120px auto 80px;
+    padding: 0 20px;
+    color: #dde9ffcc;
+  }
+  h1 {
+    font-family: 'Orbitron', monospace;
+    color: #6bbdff;
+    font-size: 2.8rem;
+    margin-bottom: 40px;
+    text-align: center;
+    text-shadow:
+      0 0 12px #4f8eff,
+      0 0 26px #3a8eff,
+      0 0 55px #6bbdffcc;
+    animation: neonGlow 2.8s ease-in-out infinite alternate;
+  }
+  @keyframes neonGlow {
+    0%, 100% {
+      text-shadow:
+        0 0 12px #4f8eff,
+        0 0 26px #3a8eff,
+        0 0 55px #6bbdffcc;
+    }
+    50% {
+      text-shadow:
+        0 0 22px #58a6ff,
+        0 0 45px #5f9fff,
+        0 0 90px #86bbffdd;
+    }
+  }
+  .game-modes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+    gap: 30px;
+  }
+  .mode-card {
+    background: #1f234a;
+    border-radius: 16px;
+    padding: 26px 22px;
+    box-shadow:
+      0 10px 28px rgba(0,0,0,0.5),
+      inset 0 0 32px #406ae040;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #acc8ffcc;
+    cursor: pointer;
+    transition: transform 0.24s, box-shadow 0.24s;
+    user-select: none;
+    min-height: 230px;
+    will-change: transform; /* enable GPU acceleration */
+  }
+  .mode-card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 18px 40px rgba(0,115,255,0.6),
+      inset 0 0 32px #6bbdffcc;
+    color: #d9e8ff;
+  }
+  .mode-icon {
+    font-size: 3.2rem;
+    color: #6bbdffcc;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 8px #6bbdffcc);
+    transition: color 0.24s;
+  }
+  .mode-title {
+    font-family: 'Orbitron',sans-serif ;
+    font-size: 1.2rem;
+    font-weight: 900;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    color: #9ec6ff;
+    user-select: none;
+  }
+  .mode-desc {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #b6c8ffff;
+    flex-grow: 1;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  /* Modal styles */
+  #challengeModal {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(15, 20, 30, 0.95);
+    backdrop-filter: blur(10px);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #challengeModal.active {
+    display: flex;
+  }
+  #challengeModal .modal-content {
+    background: #1f234a;
+    border-radius: 20px;
+    padding: 28px 36px;
+    box-shadow: 0 20px 42px #346effbb;
+    text-align: center;
+    max-width: 340px;
+  }
+  #challengeModal h2 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    color: #6bbdff;
+  }
+  #challengeModal button {
+    background: #4c7aff;
+    border: none;
+    border-radius: 30px;
+    padding: 11px 35px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #121a3a;
+    margin: 14px 0;
+    cursor: pointer;
+    box-shadow: 0 0 24px #4c80ffbb;
+    transition: background-color 0.21s;
+    width: 100%;
+  }
+  #challengeModal button:hover {
+    background-color: #2d59d1;
+    color: #f9fbff;
+  }
+
+  /* Questions List Section Styling */
+  #questionsContainer {
+    margin-top: 40px;
+    background: #1f234a;
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow:
+      0 10px 28px rgba(0,0,0,0.6),
+      inset 0 0 32px #406ae040;
+    color: #acc8ffcc;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #questionsContainer h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.2rem;
+    color: #6bbdff;
+    margin-bottom: 8px;
+    letter-spacing: 1.2px;
+    text-align: center;
+  }
+  #questionList {
+    list-style: none;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+  }
+  #questionList li {
+    background: #2f3460;
+    margin-bottom: 6px;
+    padding: 10px 14px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.18s;
+  }
+  #questionList li:hover {
+    background-color: #3a4286;
+    color: #d0e6ff;
+  }
+  #questionList li .difficulty {
+    float: right;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #84b6ffdd;
+  }
+  /* Loader */
+  .loader {
+    border: 4px solid #eee;
+    border-top: 4px solid #6bbdff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 0.8s linear infinite;
+    margin: 24px auto;
+  }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<header class="header">
+  BRAVO
+  <nav>
+    <ul>
+      <li><a href="game.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="games.html" class="active">Games</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h1>Challenge Your Friends or Play Anyone, Anywhere!</h1>
+  <div class="game-modes">
+    <div class="mode-card" onclick="showChallengeModal()">
+      <div class="mode-icon">🤜🤛</div>
+      <div class="mode-title">Challenge a Friend</div>
+      <div class="mode-desc">Choose Online or Offline challenge mode.</div>
+    </div>
+    <div class="mode-card">
+      <div class="mode-icon">🌏</div>
+      <div class="mode-title">Random Opponent - India</div>
+      <div class="mode-desc">Quick matchmaking with coders anywhere in India.<br>Jump straight into the action within seconds!</div>
+      <button class="mode-btn" onclick="playRandom('india')">Play Now</button>
+      <div id="indiaStatus" class="status-text"></div>
+    </div>
+    <div class="mode-card">
+      <div class="mode-icon">🗺️</div>
+      <div class="mode-title">Random Opponent - Worldwide</div>
+      <div class="mode-desc">Broaden your horizon and battle coders across the globe.<br>Experience international competition like never before.</div>
+      <button class="mode-btn" onclick="playRandom('world')">Play Now</button>
+      <div id="worldStatus" class="status-text"></div>
+    </div>
+    <div class="mode-card" onclick="window.location.href='/practice.html'">
+      <div class="mode-icon">🕹️</div>
+      <div class="mode-title">Offline Practice</div>
+      <div class="mode-desc">Train your skills solo with customizable challenges.<br>Click to explore problems.</div>
+    </div>
+  </div>
+ 
+    <div id="paginationControls" style="text-align:center; margin-top:15px;"></div>
+  </div>
+</main>
+<div id="challengeModal">
+  <div class="modal-content">
+    <h2>Choose Challenge Mode</h2>
+    <button onclick="goOnline()">Online Challenge</button>
+    <button onclick="goOffline()">Offline Practice</button>
+  </div>
+</div>
+<script>
+  const PAGE_SIZE = 30;
+  let questionsData = [];
+  let currentPage = 1;
+  let debounceTimeout;
+
+  function showChallengeModal() {
+    document.getElementById('challengeModal').classList.add('active');
+  }
+  function goOnline() {
+    window.location.href = '/index.html';
+  }
+  function goOffline() {
+    window.location.href = '/practice.html';
+  }
+  function playRandom(region) {
+    const statusId = region === 'india' ? 'indiaStatus' : 'worldStatus';
+    const statusEl = document.getElementById(statusId);
+    statusEl.style.color = '#6bbdff';
+    statusEl.textContent = `Searching for random opponent (${region === 'india' ? 'India' : 'Worldwide'})...`;
+    setTimeout(() => {
+      statusEl.textContent = 'Opponent found! Starting game now... Good luck!';
+    }, 2300);
+  }
+
+  // Render questions in batches using DocumentFragment to reduce layout thrashing
+  function renderQuestions(page) {
+    const start = (page - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    const questionList = document.getElementById('questionList');
+    
+    questionList.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+
+    questionsData.slice(start, end).forEach(q => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span>${q.title}</span> <span class="difficulty">${q.difficulty}</span>`;
+      li.onclick = () => { window.location.href = `question.html?id=${q._id}`; };
+      fragment.appendChild(li);
+    });
+    questionList.appendChild(fragment);
+    renderPagination(page, Math.ceil(questionsData.length / PAGE_SIZE));
+  }
+
+  // Debounced pagination to reduce excessive rendering
+  function renderPagination(page, totalPages) {
+    const controls = document.getElementById('paginationControls');
+    controls.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    if (page > 1) {
+      const prev = document.createElement('button');
+      prev.textContent = '< Prev';
+      prev.onclick = () => {
+        if (debounceTimeout) clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+          currentPage--;
+          renderQuestions(currentPage);
+        }, 150);
+      };
+      prev.style.marginRight = '12px';
+      controls.appendChild(prev);
+    }
+    controls.appendChild(document.createTextNode(` Page ${page} of ${totalPages} `));
+    if (page < totalPages) {
+      const next = document.createElement('button');
+      next.textContent = 'Next >';
+      next.onclick = () => {
+        if (debounceTimeout) clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+          currentPage++;
+          renderQuestions(currentPage);
+        }, 150);
+      };
+      next.style.marginLeft = '12px';
+      controls.appendChild(next);
+    }
+  }
+
+  let cachedQuestions = null;
+
+  function fetchQuestions() {
+    if (cachedQuestions) {
+      questionsData = cachedQuestions;
+      currentPage = 1;
+      renderQuestions(currentPage);
+      return;
+    }
+
+    document.getElementById('questionList').innerHTML = '<li class="loader"></li>';
+    document.getElementById('paginationControls').innerHTML = '';
+
+    fetch('/api/questions')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && data.questions.length > 0) {
+          cachedQuestions = data.questions;
+          questionsData = cachedQuestions;
+          currentPage = 1;
+          renderQuestions(currentPage);
+        } else {
+          document.getElementById('questionList').innerHTML = '<li>No questions available.</li>';
+          document.getElementById('paginationControls').innerHTML = '';
+        }
+      })
+      .catch(err => {
+        document.getElementById('questionList').innerHTML = '<li>Failed to load questions.</li>';
+        document.getElementById('paginationControls').innerHTML = '';
+        console.error('Error fetching questions:', err);
+      });
+  }
+
+  fetchQuestions();
+</script>
+</body>
+</html>

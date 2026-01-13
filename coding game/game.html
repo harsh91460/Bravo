@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bravo Gaming Platform - Game</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;700&display=swap');
+
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #d0e6ff;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+
+    /* Floating particle circles */
+    .particles {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      background: rgba(107, 189, 255, 0.18);
+      border-radius: 50%;
+      animation: floatUp linear infinite;
+      box-shadow: 0 0 8px #6bbdff88;
+    }
+    @keyframes floatUp {
+      0% {transform: translateY(100vh) scale(0);}
+      50% {transform: scale(1);}
+      100% {transform: translateY(-20vh) scale(0);}
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      width: 100%;
+      z-index: 10;
+      backdrop-filter: saturate(180%) blur(14px);
+      background: rgba(15, 20, 30, 0.80);
+      color: #6bbdff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      box-shadow: 0 0 20px #3a8effbb;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: 1.8rem;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 40px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+    nav ul li a {
+      color: #84b6ffdd;
+      text-decoration: none;
+      padding-bottom: 5px;
+      position: relative;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: #6bbdff;
+      border-radius: 2px;
+      transition: 0.4s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #6bbdff;
+    }
+    nav ul li a:hover::after,
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    /* Main Hero */
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100vh;
+      padding-top: 80px;
+      z-index: 1;
+      position: relative;
+      text-align: center;
+      user-select: none;
+    }
+    main h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4.5rem;
+      margin-bottom: 15px;
+      color: #6bbdff;
+      text-shadow:
+        0 0 10px #4f8eff,
+        0 0 30px #3a8eff,
+        0 0 70px #6bbdffdd;
+      animation: flicker 4s infinite;
+    }
+    main p {
+      font-size: 1.5rem;
+      color: #a3c1ffcc;
+      margin-bottom: 40px;
+      max-width: 650px;
+      text-shadow: 0 0 6px #295a9d88;
+    }
+    @keyframes flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+          0 0 10px #4f8eff,
+          0 0 30px #3a8eff,
+          0 0 70px #6bbdffdd;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+      }
+    }
+
+    /* Buttons */
+    .btn {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      padding: 18px 65px;
+      border-radius: 45px;
+      border: none;
+      cursor: pointer;
+      margin: 0 15px;
+      color: #0c253a;
+      background-image: linear-gradient(45deg, #6bbdff, #3a8eff);
+      box-shadow:
+        0 0 30px #6bbdffcc,
+        0 0 60px #3a8effcc;
+      transition: transform 0.3s, box-shadow 0.3s;
+      user-select: none;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px 6px #6bbdffcc;
+}
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main h1 {
+        font-size: 3rem;
+      }
+      main p {
+        font-size: 1.1rem;
+        max-width: 90vw;
+      }
+      .btn {
+        margin: 12px 0;
+        width: 70vw;
+      }
+      nav ul {
+        gap: 25px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<header class="header">
+  BRAVO
+  <nav>
+    <ul>
+      <li><a href="game.html" class="active">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="#">Leaderboard</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Unleash Your Coding Power</h1>
+  <p>Jump into fierce, live coding battles with players around the globe. Ready to level up?</p>
+  <div>
+    <a href="features.html" class="btn">Get Started</a>
+    <a href="games.html" class="btn">Play Games</a>
+  </div>
+</main>
+
+<script>
+  // Floating particles code: creates glowing orbs drifting upward randomly
+  const particlesEl = document.getElementById('particles');
+  const colors = ['#6bbdff', '#3a8eff', '#84c1ff'];
+
+  function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    const size = Math.random() * 25 + 10;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.animationDuration = (Math.random() * 10 + 8) + 's';
+    particle.style.opacity = 0.15 + Math.random() * 0.35;
+    particlesEl.appendChild(particle);
+
+    // Remove particle after animation
+    particle.addEventListener('animationend', () => particle.remove());
+  }
+
+  setInterval(createParticle, 300);
+
+</script>
+
+<style>
+  .particles {
+    position: fixed;
+    top: 0; left:0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 6px #6bbdffaa);
+    animation-name: floatUp;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(120vh) scale(0.2);
+      opacity: 1;
+    }
+    80% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(-10vh) scale(1);
+      opacity: 0;
+    }
+  }
+</style>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Challenge a Friend - Bravo Gaming Platform</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;700&display=swap');
+    body, html {
+      margin:0; padding:0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#0f2027);
+      background-size: 400% 400%;
+      animation: gradientShift 18s ease infinite;
+      color: #d0e6ff;
+      min-height:100vh; min-width:100vw;
+      overflow-x: hidden;
+    }
+    @keyframes gradientShift {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+    .header {
+      width: 100vw;
+      position:fixed; left:0; top:0;
+      z-index: 1000;
+      background:rgba(15,20,30,0.85);
+      color:#6bbdff;
+      font-family:'Orbitron',monospace;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:5px;
+      font-size:1.8rem;
+      padding:18px 50px;
+      box-shadow:0 0 22px #3a8effbb;
+      display:flex; justify-content:space-between; align-items:center;
+      user-select:none;
+    }
+    .header nav ul {
+      list-style:none; display:flex; gap:40px;
+      font-weight:700; font-size:1.1rem; font-family:'Poppins',sans-serif; margin:0; padding:0;
+    }
+    .header nav ul li a {
+      color:#84b6ffdd; text-decoration:none; position:relative; padding-bottom:5px; transition:color 0.35s;
+    }
+    .header nav ul li a:hover, .header nav ul li a.active { color:#6bbdff; }
+    main {
+      max-width:380px;
+      background:#192142e0;
+      border-radius:30px;
+      margin:140px auto 60px;
+      padding:48px 30px 40px 30px;
+      box-shadow:0 30px 80px #4574ffa0;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      opacity:0;
+      transform:translateY(70px) scale(0.98);
+      animation:cardEnter 1s cubic-bezier(.55,0,.15,1) forwards;
+      animation-delay:0.35s;
+    }
+    @keyframes cardEnter {
+      to { opacity:1; transform:none; }
+    }
+    h1 {
+      font-family:'Orbitron',monospace;
+      font-size:2.4rem;
+      color:#57a0f3;
+      margin-bottom:26px;
+      letter-spacing:2px;
+      animation:fadeIn 1.2s both;
+    }
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    .mode-icon {
+      font-size:3.2rem;
+      filter:drop-shadow(0 0 16px #70caffd1);
+      margin-bottom:18px;
+      animation: bounceIcon 1.3s 0.2s cubic-bezier(.19,1,.22,1) both;
+    }
+    @keyframes bounceIcon {
+      0%{transform: scale(0.85);}
+      50%{transform: scale(1.08);}
+      70%{transform: scale(0.95);}
+      100%{transform: scale(1);}
+    }
+    .challenge-form input, .challenge-form button {
+      width:90%; max-width:320px; margin:10px auto 18px auto; display:block;
+    }
+    .challenge-form input {
+      font-family:'Poppins',sans-serif;
+      font-size:1rem;
+      border:none;
+      border-radius:18px;
+      color:#b9d8ff;
+      background:#263168;
+      padding:14px 18px;
+      box-shadow:inset 0 0 20px #4f7cff45;
+      margin-bottom:16px;
+      outline: none;
+      transition:box-shadow 0.28s;
+    }
+    .challenge-form input:focus {
+      box-shadow:0 0 12px #6bbdffad, inset 0 0 12px #70caff25;
+      background:#2d416c;
+      color:#e2f1ff;
+    }
+    .challenge-form button {
+      padding:13px 0;
+      border-radius:40px;
+      font-weight:700;
+      font-family:'Orbitron',monospace;
+      font-size:1.15rem;
+      background:#4c7aff;
+      color:#0d1428;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 0 22px #6bbdff99;
+      transition:background 0.3s,transform 0.3s;
+      margin-bottom:12px;
+    }
+    .challenge-form button:hover {
+      background:#2267e3;
+      color:#f4f9ff;
+      transform:scale(1.04);
+      box-shadow:0 0 40px #6bbdff99;
+    }
+    .waiting-box {
+      background:#202c54;
+      border-radius:18px;
+      color:#cff;
+      font-family:'Poppins',sans-serif;
+      margin:22px auto 0 auto;
+      padding:18px 10px;
+      font-weight:600;
+      box-shadow:0 0 18px #84baff44;
+      max-width:400px;
+      letter-spacing:1px;
+      display:flex;justify-content:center;align-items:center;gap:12px;
+      opacity:0;
+      transition:opacity 0.45s;
+    }
+    .waiting-box.active { opacity:1; animation:fadeIn 1s both; }
+    .dot-anim { font-size:2.1rem; color:#6bbdff; animation:blink 0.8s infinite; }
+    @keyframes blink { 50% {opacity:0.35;} }
+
+    @media (max-width:500px) {
+      main { padding:30px 6vw 18px 6vw; margin: 94px 0 32px 0;}
+      h1 { font-size:1.4rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    BRAVO
+    <nav>
+      <ul>
+        <li><a href="game.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+  <main>
+    <div class="mode-icon">🤜🤛</div>
+    <h1>Challenge a Friend</h1>
+    <form class="challenge-form" id="challengeForm" autocomplete="off">
+      <input type="text" id="yourName" required placeholder="Your Username/Nickname" />
+      <input type="text" id="friendName" required placeholder="Friend's Username/Email" />
+      <button type="submit">Send Challenge</button>
+    </form>
+    <div class="waiting-box" id="waitingBox" style="display:none;">
+      Waiting for your friend to accept the challenge
+      <span class="dot-anim">...</span>
+    </div>
+  </main>
+  <script>
+    const challengeForm = document.getElementById('challengeForm');
+    const waitingBox = document.getElementById('waitingBox');
+    challengeForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      challengeForm.style.display = "none";
+      waitingBox.style.display = "flex";
+      setTimeout(()=>{
+        waitingBox.classList.add("active");
+      },250);
+    });
+  </script>
+</body>
+</html>

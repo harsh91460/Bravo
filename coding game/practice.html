@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Practice - Bravo Gaming Platform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;700&display=swap');
+  
+  body, html {
+    margin:0; padding:0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite;
+    color: #d0e6ff;
+    min-height: 100vh;
+    user-select: none;
+  }
+  @keyframes gradientShift {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+  }
+  
+  header {
+    position: fixed;
+    top: 0; left: 0; width: 95%;
+    background: rgba(15, 20, 30, 0.9);
+    color: #6bbdff;
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 1.8rem;
+    padding: 18px 50px;
+    box-shadow: 0 0 22px #3a8effbb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+  }
+  header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    margin: 0; padding: 0;
+  }
+  header nav ul li a {
+    color: #84b6ffdd;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.35s ease;
+  }
+  header nav ul li a.active,
+  header nav ul li a:hover {
+    color: #6bbdff;
+  }
+  header nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: #6bbdff;
+    border-radius: 2px;
+    transition: 0.4s;
+  }
+  header nav ul li a.active::after,
+  header nav ul li a:hover::after {
+    width: 100%;
+  }
+  
+  main {
+    padding: 120px 40px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .problem-section, .compiler-section {
+    background: rgba(31, 35, 74, 0.9);
+    border-radius: 20px;
+    padding: 20px;
+    border: 2px solid #3a6affcc;
+  }
+  
+  .section-title {
+    color: #6bbdff;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px #3a8effbb;
+  }
+  
+  .problem-selector {
+    margin-bottom: 15px;
+  }
+  
+  .problem-selector select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: #2b3a7a;
+    color: #aad4ffcc;
+    border: 1px solid #407aff44;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  
+  .problem-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 10px #407aff66;
+  }
+  
+  .problem-description {
+    background: #1f234acc;
+    border-radius: 10px;
+    padding: 15px;
+    color: #d0e0ffcc;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    max-height: 300px;
+    overflow-y: auto;
+    line-height: 1.6;
+  }
+  
+  .compiler-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .lang-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .lang-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #1f234a;
+    color: #8db1ffcc;
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .lang-btn:hover,
+  .lang-btn.active {
+    background: #4a7bffa0;
+    color: #e0e9ff;
+    box-shadow: 0 0 20px #6898ffcc;
+  }
+  
+  textarea {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    background: #2b3a7a;
+    color: #aad4ffcc;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    border: 1px solid #407aff44;
+    resize: vertical;
+    margin-bottom: 12px;
+    min-height: 200px;
+  }
+  
+  textarea:focus {
+    outline: none;
+    box-shadow: inset 0 0 10px #407aff66;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+  }
+  
+  .submit-btn {
+    background: #4c7aff;
+    color: #0f111a;
+  }
+  
+  .submit-btn:hover {
+    background: #2d59d1;
+    transform: scale(1.02);
+  }
+  
+  .clear-btn {
+    background: #1f234a;
+    color: #8db1ffcc;
+    border: 1px solid #407aff44;
+  }
+  
+  .clear-btn:hover {
+    background: #3a4a7a;
+  }
+  
+  .results-container {
+    background: rgba(31, 35, 74, 0.9);
+    border-radius: 20px;
+    padding: 20px;
+    border: 2px solid #3a6affcc;
+    display: none;
+  }
+  
+  .result-box {
+    background: #1f234acc;
+    border-radius: 10px;
+    padding: 15px;
+    border-left: 4px solid #6bbdff;
+    color: #d0e0ffcc;
+    white-space: pre-wrap;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    max-height: 400px;
+    overflow-y: auto;
+    line-height: 1.5;
+  }
+  
+  .result-title {
+    color: #6bbdff;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  @media (max-width: 1024px) {
+    .top-section {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  BRAVO
+  <nav>
+    <ul>
+      <li><a href="game.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="games.html" class="active">Games</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  
+  <!-- TOP SECTION -->
+  <div class="top-section">
+    
+    <!-- PROBLEM SECTION -->
+    <div class="problem-section">
+      <div class="section-title">📝 Problem</div>
+      
+      <div class="problem-selector">
+        <select id="problemSelect">
+          <option value="">Loading problems...</option>
+        </select>
+      </div>
+      
+      <div class="problem-description" id="problemDescription">
+        Select a problem to begin...
+      </div>
+    </div>
+    
+    <!-- COMPILER SECTION -->
+    <div class="compiler-section">
+      <div class="section-title">💻 Code Editor</div>
+      
+      <div class="lang-buttons">
+        <button class="lang-btn active" data-lang="javascript">JavaScript</button>
+        <button class="lang-btn" data-lang="python">Python</button>
+        <button class="lang-btn" data-lang="cpp">C++</button>
+        <button class="lang-btn" data-lang="java">Java</button>
+      </div>
+      
+      <textarea id="codeEditor" placeholder="Write your code here..."></textarea>
+      
+      <div class="buttons">
+        <button class="btn submit-btn" id="submitBtn">🚀 Submit for Evaluation</button>
+        <button class="btn clear-btn" id="clearBtn">🗑 Clear</button>
+      </div>
+    </div>
+    
+  </div>
+  
+  <!-- RESULTS SECTION -->
+  <div class="results-container" id="resultsContainer">
+    <div class="section-title">🤖 AI Evaluation Result</div>
+    
+    <div class="result-box" id="resultBox">
+      Loading...
+    </div>
+  </div>
+  
+</main>
+
+<script>
+let allProblems = [];
+let selectedLang = "javascript";
+let selectedProblemId = null;
+
+const langButtons = document.querySelectorAll(".lang-btn");
+const codeEditor = document.getElementById("codeEditor");
+const submitBtn = document.getElementById("submitBtn");
+const clearBtn = document.getElementById("clearBtn");
+const resultsContainer = document.getElementById("resultsContainer");
+const resultBox = document.getElementById("resultBox");
+const problemSelect = document.getElementById("problemSelect");
+const problemDescription = document.getElementById("problemDescription");
+
+// ========== LOAD PROBLEMS ==============
+async function loadProblems() {
+  try {
+    console.log("🔄 Loading problems...");
+    const res = await fetch("http://localhost:3000/api/questions?limit=50");
+    const json = await res.json();
+    
+    if (json.success && json.questions && json.questions.length > 0) {
+      allProblems = json.questions;
+      problemSelect.innerHTML = "";
+      
+      allProblems.forEach(problem => {
+        const option = document.createElement("option");
+        option.value = problem.id;
+        option.textContent = `${problem.title} (${problem.difficulty || "N/A"})`;
+        problemSelect.appendChild(option);
+      });
+      
+      console.log("✅ Loaded", allProblems.length, "problems");
+      
+      // Load first problem
+      if (allProblems[0]) {
+        selectedProblemId = allProblems[0].id;
+        await loadProblemDetails(allProblems[0].id);
+      }
+    }
+  } catch (err) {
+    console.error("❌ Error loading problems:", err);
+    problemSelect.innerHTML = `<option>Error loading problems</option>`;
+  }
+}
+
+// ========== LOAD PROBLEM DETAILS ==============
+async function loadProblemDetails(problemId) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/question/${problemId}`);
+    const json = await res.json();
+    
+    if (json.success) {
+      const problem = json.question;
+      problemDescription.textContent = problem.description || problem.content || "No description";
+    }
+  } catch (err) {
+    console.error("❌ Error loading problem:", err);
+    problemDescription.textContent = "Error loading problem";
+  }
+}
+
+// ========== PROBLEM SELECT CHANGE ==============
+problemSelect.addEventListener("change", (e) => {
+  const problemId = e.target.value;
+  if (problemId) {
+    selectedProblemId = problemId;
+    loadProblemDetails(problemId);
+  }
+});
+
+// ========== LANGUAGE SELECTION ==============
+langButtons.forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    langButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedLang = btn.getAttribute("data-lang");
+    codeEditor.focus();
+  });
+});
+
+// ========== SUBMIT FOR EVALUATION ==============
+submitBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  const code = codeEditor.value.trim();
+  
+  if (!code) {
+    resultBox.textContent = "❌ Please enter code";
+    resultsContainer.style.display = "block";
+    return;
+  }
+  
+  resultsContainer.style.display = "block";
+  resultBox.textContent = "⏳ Evaluating code with Gemini AI...";
+  
+  try {
+    console.log("🚀 Sending code to backend for Gemini evaluation...");
+    
+    const res = await fetch("http://localhost:3000/api/ai-review", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code: code,
+        language: selectedLang,
+        problemDescription: problemDescription.textContent
+      })
+    });
+    
+    const json = await res.json();
+    console.log("✅ Response received:", json);
+    
+    if (!json.success) {
+      resultBox.textContent = `❌ Error: ${json.message || json.error}`;
+      return;
+    }
+    
+    const review = json.review;
+    
+    let output = `✅ Correctness: ${review.isCorrect ? 'YES ✓' : 'NO ✗'}\n`;
+    output += `🎯 AI Score: ${review.score}/100\n`;
+    output += `━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    output += `📝 Feedback:\n${review.feedback}\n`;
+    
+    if (review.complexity) {
+      output += `\n⏱️ Complexity Analysis:\n${review.complexity}\n`;
+    }
+    
+    if (review.bugs && review.bugs.length > 0) {
+      output += `\n🐛 Bugs Found:\n`;
+      review.bugs.forEach(bug => {
+        output += `  • ${bug}\n`;
+      });
+    }
+    
+    if (review.suggestions && review.suggestions.length > 0) {
+      output += `\n💡 Improvement Suggestions:\n`;
+      review.suggestions.forEach(sugg => {
+        output += `  • ${sugg}\n`;
+      });
+    }
+    
+    resultBox.textContent = output;
+    
+  } catch (err) {
+    console.error("❌ Error:", err);
+    resultBox.textContent = `❌ Error: ${err.message}`;
+  }
+});
+
+// ========== CLEAR ==============
+clearBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  codeEditor.value = "";
+  resultsContainer.style.display = "none";
+  codeEditor.focus();
+});
+
+// ========== INIT ==============
+loadProblems();
+</script>
+
+</body>
+</html>

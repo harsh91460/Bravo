@@ -1,0 +1,22 @@
+### REGISTER
+POST http://localhost:4000/register
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456",
+  "name": "Harsh"
+}
+
+### LOGIN
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}
+
+### ME
+GET http://localhost:4000/me
+Authorization: Bearer {{token}}

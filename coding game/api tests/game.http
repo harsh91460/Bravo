@@ -1,0 +1,41 @@
+### CREATE ROOM
+POST http://localhost:8000/rooms
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "problem_id": 1,
+  "mode": "practice"
+}
+
+### JOIN ROOM
+POST http://localhost:8000/rooms/{{room}}/join
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "language": "python"
+}
+
+### START ROOM
+POST http://localhost:8000/rooms/{{room}}/start
+Authorization: Bearer {{token}}
+
+### GET PROBLEM
+GET http://localhost:8000/rooms/{{room}}/problem
+Authorization: Bearer {{token}}
+
+### SUBMIT
+POST http://localhost:8000/rooms/{{room}}/submit
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "language": "python",
+  "code": "print([0,1])"
+}
+
+### STATUS
+GET http://localhost:8000/submissions/{{submission}}
+Authorization: Bearer {{token}}
+

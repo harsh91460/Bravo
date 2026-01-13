@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register - Bravo Gaming Platform</title>
+  <style>
+  body {
+    background-image: url('assets/register_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #0f111a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f0f0f0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  /* Optional dark overlay for better readability */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+  }
+
+  .login-container {
+    background-color: #141625cc; /* slightly transparent */
+    padding: 40px 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+    width: 360px;             /* Fixed width */
+    height: 440px;            /* Fixed height */
+    max-width: 90vw;
+    max-height: 90vh;
+    text-align: center;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;  /* Stack children vertically */
+    justify-content: center; /* Vertically center form */
+    position: relative;
+    z-index: 1; /* Above overlay */
+  }
+
+  .login-container:hover {
+    background-color: #1c2240;
+    box-shadow: 0 12px 40px #000d;
+  }
+
+  h2 {
+    margin-bottom: 28px;
+    font-weight: 900;
+    font-size: 2.2rem;
+    letter-spacing: 1.2px;
+    color: #6bbdff;
+    text-shadow: 
+      0 0 6px #3a70d5aa,
+      0 0 12px #5487e5bb;
+  }
+
+  form label {
+    display: block;
+    text-align: left;
+    margin: 18px 0 8px;
+    font-weight: 700;
+    color: #9ebfff;
+    font-size: 0.95rem;
+    letter-spacing: 0.4px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 90%;
+    padding: 14px 15px;
+    border-radius: 8px;
+    border: 1.8px solid #34426c;
+    background-color: #121726;
+    color: #e4ecff;
+    font-size: 15px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    box-shadow: inset 0 0 8px #1e2a5c;
+  }
+
+  input[type="text"]::placeholder,
+  input[type="password"]::placeholder {
+    color: #7c8faf;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: #6bbdff;
+    background-color: #15253c;
+    box-shadow: 
+      0 0 6px #4a9eff,
+      inset 0 0 14px #5c8bd8;
+    color: #dbe9ff;
+  }
+
+  button {
+    margin-top: 18px;
+    width: 100%;
+    padding: 14px 0;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(90deg, #4b9aff, #1f5ae4);
+    color: #f0f0f0;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-shadow: 0 1px 4px #1a3555;
+    box-shadow: 
+      0 6px 20px #1f4dbb77,
+      inset 0 0 14px #4e7bffcc;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  button:hover,
+  button:focus {
+    background: linear-gradient(90deg, #3c7aff, #1544d4);
+    box-shadow: 
+      0 9px 30px #1b5ce366,
+      inset 0 0 18px #3b6affe6;
+    outline: none;
+    color: #e1eaff;
+  }
+
+  .register-text {
+    margin-top: 28px;
+    font-size: 14px;
+    color: #aec9ffcc;
+    user-select: none;
+  }
+
+  .register-text a {
+    color: #6bbdff;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+    letter-spacing: 0.7px;
+  }
+
+  .register-text a:hover {
+    text-decoration: underline;
+    color: #4a95ff;
+  }
+
+  .login-message {
+    margin-top: 20px;
+    font-weight: 700;
+    min-height: 24px;
+    color: #f87171;
+    text-shadow: 0 0 4px #f94d4daa;
+    user-select: none;
+    letter-spacing: 0.4px;
+    text-align: center;
+  }
+
+  @media (max-width: 420px) {
+    .login-container {
+      width: 90vw;
+      height: auto;
+      padding: 32px 24px;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 22px;
+    }
+    button {
+      font-size: 16px;
+    }
+    form label {
+      font-size: 0.9rem;
+    }
+  }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Register New Account</h2>
+    <form id="registerForm" autocomplete="off" novalidate>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required placeholder="Choose a username" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required placeholder="Choose a password" />
+
+      <button type="submit">Register</button>
+    </form>
+    <p class="register-text">Already have an account? <a href="login.html">Login here</a></p>
+    <p id="registerMessage" class="login-message" aria-live="assertive"></p>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const username = this.username.value.trim();
+      const password = this.password.value.trim();
+      const registerMessage = document.getElementById("registerMessage");
+      registerMessage.textContent = "";
+      registerMessage.style.color = "";
+
+      if (username.length < 3) {
+        registerMessage.style.color = "#f87171";
+        registerMessage.textContent = "Username must be at least 3 characters.";
+        return;
+      }
+      if (password.length < 6) {
+        registerMessage.style.color = "#f87171";
+        registerMessage.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          registerMessage.style.color = "lightgreen";
+          registerMessage.textContent = "Registration successful! Redirecting to login...";
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+        } else {
+          registerMessage.style.color = "#f87171";
+          registerMessage.textContent = data.message || "Registration failed.";
+        }
+      } catch (error) {
+        registerMessage.style.color = "#f87171";
+        registerMessage.textContent = "Server error. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

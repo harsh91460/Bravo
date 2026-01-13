@@ -1,0 +1,28 @@
+{
+  "name": "coding-battle-backend",
+  "version": "1.0.0",
+  "description": "Backend server for coding battle platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "detect-port": "^2.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "http": "^0.0.1-security",
+    "mongoose": "^6.13.8",
+    "mysql2": "^3.15.3",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

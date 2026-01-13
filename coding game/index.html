@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Bravo - Online Multiplayer Lobby</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Orbitron:900,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700,900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg,#0f2027,#203a43,#2c5364,#391da4,#44b6f7,#0f2027 70%);
+      background-size: 300% 300%;
+      animation: gradientFlow 7s ease-in-out infinite;
+      color: #d0e6ff;
+      margin: 0; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      user-select: none; padding-top: 60px;
+    }
+    @keyframes gradientFlow {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    #login, #lobby, #game {
+      background: rgba(31,35,74,0.82);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      box-shadow: 0 10px 42px #4785ff90, 0 0 0 2px #1730a3a8;
+      padding: 44px 30px 38px;
+      width: 346px;
+      max-width: 92vw;
+      text-align: center;
+      margin-bottom: 45px;
+      border: 2.5px solid #35f3ff44;
+      position: relative;
+      overflow: hidden;
+    }
+    #login::after, #lobby::after, #game::after {
+      content:"";
+      position: absolute; inset: 0;
+      border-radius: 24px;
+      border: 2px solid #21dfff33;
+      pointer-events: none;
+      box-shadow: 0 0 18px 5px #28fff244, 0 0 16px #40c0ff40 inset;
+      opacity: 0.32;
+      z-index: 2;
+    }
+    #login input {
+      width: 90%;
+      border-radius: 22px;
+      border: none;
+      padding: 17px 16px;
+      font-size: 1.05rem;
+      background: #263168d6;
+      color: #b9d8ffcc;
+      outline: none;
+      margin-bottom: 25px;
+      box-shadow: 0 0 10px #36a9ff54 inset;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 1px;
+      transition: outline 0.2s, box-shadow 0.2s;
+    }
+    #login input:focus {
+      outline: 2px solid #36faf8cc;
+      box-shadow: 0 0 14px #37fffaaa;
+    }
+    #login button, #inviteContent button {
+      width: 100%;
+      border-radius: 40px;
+      background: linear-gradient(90deg, #43f6ff, #3a79fd 80%);
+      color: #10182b;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3rem;
+      letter-spacing: 1.1px;
+      padding: 19px 0;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 40px #46bcffed, 0 0 16px #1577ff82 inset;
+      transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+      margin-top: 6px;
+      outline: none;
+      position: relative;
+    }
+    h2 {
+      margin-bottom: 18px;
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #5be2fffc;
+      text-shadow: 0 0 18px #42faffc2, 0 1px 0 #142839;
+      animation: neonPulse 1.8s infinite alternate;
+    }
+    @keyframes neonPulse {
+      0% {text-shadow:0 0 12px #3ee8fff2,0 1px 0 #142839;}
+      100% {text-shadow:0 0 30px #21fffede,0 1px 0 #213945;}
+    }
+    #userList {
+      margin-top: 16px;
+      text-align: left;
+      max-height: 245px;
+      overflow-y: auto;
+    }
+    #userList button {
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(88deg, #192b45e7 70%, #274cb8bc 95%);
+      border-radius: 18px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border: none;
+      cursor: pointer;
+      color: #89d1ffc6;
+      text-align: left;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 0 18px #21ccff40 inset;
+      letter-spacing: 1px;
+      transition: background 0.24s, color 0.21s, box-shadow 0.23s;
+    }
+    #userList button:hover {
+      background: linear-gradient(92deg,#3147ff 90%,#5effef 100%);
+      color: #fdfeff;
+      box-shadow: 0 0 42px #15f6cf88;
+    }
+    #inviteModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #131e4df5;
+      backdrop-filter: blur(10px);
+      justify-content: center; align-items: center;
+      z-index: 9999;
+      animation: neonFadeIn 0.6s ease;
+    }
+    #inviteModal.active { display: flex; }
+    #inviteContent {
+      background: linear-gradient(118deg,#28427a 82%,#24caff70 100%);
+      padding: 32px 30px;
+      border-radius: 22px;
+      box-shadow: 0 0 38px #30bffade;
+      max-width: 370px;
+      text-align: center;
+      color: #bbd2ffea;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.28rem;
+      letter-spacing: 1px;
+      border: 2.5px solid #11b0ddee;
+    }
+    @keyframes neonFadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    #game {
+      display: none;
+      width: 374px;
+      max-width: 95vw;
+      background: rgba(39, 44, 85, 0.89);
+      padding: 28px;
+      border-radius: 23px;
+      box-shadow: 0 0 62px #427affbb;
+      color: #bdd6ffcc;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      margin-top: 10px;
+    }
+    #game h2 {
+      font-family: 'Orbitron', monospace;
+      margin-bottom: 22px;
+      color: #86ebff;
+      font-weight: 900;
+      font-size: 1.62rem;
+      letter-spacing: 2.5px;
+      text-shadow: 0 0 18px #39eaff78;
+      animation: neonPulse 1.6s alternate infinite;
+    }
+    #game #playerStatus {
+      font-size: 1.09rem;
+      margin-bottom: 21px;
+      color: #79ffe1;
+      font-family: 'Orbitron';
+    }
+    #game #timer {
+      font-size: 1.13rem;
+      font-weight: 700;
+      font-family: 'Orbitron', monospace;
+      letter-spacing: 2.2px;
+      color: #49affdcc;
+      margin-top: 12px;
+      text-shadow: 0 0 12px #37e8ff55;
+    }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <h2>Enter Username</h2>
+    <input id="usernameInput" placeholder="Enter your username" autocomplete="off" />
+    <button id="btnLogin">Join Lobby</button>
+  </div>
+
+  <div id="lobby" style="display:none;">
+    <h2>Online Friends</h2>
+    <div id="userList"></div>
+  </div>
+
+  <div id="inviteModal">
+    <div id="inviteContent">
+      <div id="inviteText"></div>
+      <button id="btnAcceptInvite">Accept Challenge</button>
+    </div>
+  </div>
+
+  <div id="game">
+    <h2>Game Room</h2>
+    <div id="playerStatus"></div>
+    <div id="timer">Time left: <span id="timeLeft">--:--</span></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const loginDiv = document.getElementById('login');
+    const lobbyDiv = document.getElementById('lobby');
+    const userListDiv = document.getElementById('userList');
+    const inviteModal = document.getElementById('inviteModal');
+    const inviteText = document.getElementById('inviteText');
+    const btnAcceptInvite = document.getElementById('btnAcceptInvite');
+    const gameDiv = document.getElementById('game');
+    const playerStatus = document.getElementById('playerStatus');
+    const timeLeftSpan = document.getElementById('timeLeft');
+
+    let myUsername = null;
+    let currentInviteFrom = null;
+    let gameTimer = null;
+    let timeRemaining = 180;
+
+    btnAcceptInvite.onclick = () => {
+      socket.emit('accept-invite', { from: currentInviteFrom, to: myUsername });
+      inviteModal.classList.remove('active');
+    };
+
+    document.getElementById('btnLogin').onclick = () => {
+      const username = document.getElementById('usernameInput').value.trim();
+      if(username.length < 3) {
+        alert('Username should be at least 3 characters.');
+        return;
+      }
+      myUsername = username;
+      socket.emit('register-socket', myUsername);
+      loginDiv.style.display = 'none';
+      lobbyDiv.style.display = 'block';
+    };
+
+    socket.on('online-users', (users) => {
+      userListDiv.innerHTML = '';
+      users.filter(u => u !== myUsername).forEach(user => {
+        const btn = document.createElement('button');
+        btn.textContent = `⚡ Challenge ${user}`;
+        btn.onclick = () => {
+          socket.emit('send-invite', { to: user, from: myUsername });
+          alert(`Challenge invite sent to ${user}`);
+        };
+        userListDiv.appendChild(btn);
+      });
+      if(userListDiv.children.length === 0){
+        userListDiv.innerHTML = '<p style="color:#6bbdffcc;">No friends online. Ask them to join!</p>';
+      }
+    });
+
+    socket.on('receive-invite', ({ from }) => {
+      currentInviteFrom = from;
+      inviteText.textContent = `${from} has challenged you to a duel!`;
+      inviteModal.classList.add('active');
+    });
+
+    socket.on('game-start', ({ room, players }) => {
+      lobbyDiv.style.display = 'none';
+      gameDiv.style.display = 'block';
+      playerStatus.textContent = `You (${myUsername}) vs ${players.find(p => p !== myUsername)}`;
+      timeRemaining = 180;
+      timeLeftSpan.textContent = formatTime(timeRemaining);
+      clearInterval(gameTimer);
+      gameTimer = setInterval(() => {
+        timeRemaining--;
+        if(timeRemaining < 0) {
+          clearInterval(gameTimer);
+          alert('Game over! Time finished.');
+        } else {
+          timeLeftSpan.textContent = formatTime(timeRemaining);
+        }
+      }, 1000);
+    });
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+  </script>
+</body>
+</html>
